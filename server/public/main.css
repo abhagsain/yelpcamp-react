@@ -1,0 +1,32 @@
+.card-body img {
+    width: 100%;
+}
+
+#user-register,
+#user-login {
+    background: red;
+    width: 350px;
+}
+
+#profile-picture {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    clip-path: circle(50% at 50% 50%);
+}
+
+#profile-username {
+    font-size: 40px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+}
+
+.title {
+    font-size: 30px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+}
+
+a:link {
+    text-decoration: none;
+}

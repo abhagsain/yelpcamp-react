@@ -63,11 +63,12 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // ------------------------- Passport Config done! -----------------------------
-app.use(
-  body_parser.urlencoded({
-    extended: true
-  })
-);
+app.use(body_parser.json());
+// app.use(
+//   body_parser.urlencoded({
+//     extended: true
+//   })
+// );
 
 app.use(authRoutes);
 app.use(campgroundRoutes);
@@ -76,6 +77,7 @@ app.use(usersRoute);
 app.get('*', (req, res) => {
   res.render('notfound');
 });
-app.listen(process.env.PORT || 5000, process.env.IP, () => {
-  console.log('Server started! at PORT', process.env.PORT);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, process.env.IP, () => {
+  console.log('Server started! at PORT', PORT);
 });

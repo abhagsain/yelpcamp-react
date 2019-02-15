@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Campgrounds from "./components/Camgrounds";
 import Navbar from "./components/Navbar";
 import NotFound from "./components/NotFound";
+import NewCampground from "./components/New";
 
 class App extends Component {
   render() {
@@ -17,6 +18,8 @@ class App extends Component {
         <Navbar navItems={navBarItem} brand={brand} />
         <Switch>
           <Route path="/not-found" component={NotFound} />
+          <Route path="/campgrounds/new" component={NewCampground} />
+          <Route path="/campgrounds/:id" />
           <Route path="/campgrounds" exact component={Campgrounds} />
           <Redirect to="/campgrounds" exact from="/" />
           <Redirect to="/not-found" />

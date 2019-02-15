@@ -2,7 +2,7 @@
 const express = require("express");
 const campground = require("../models/campgrounds");
 const middleWare = require("../middleware");
-const debug = require('debug')('app:db');
+const debug = require("debug")("app:db");
 
 const router = express.Router();
 router.get("/", (req, res) => {
@@ -15,12 +15,11 @@ router.get("/campgrounds", (req, res) => {
     }
     async function renderCampgrounds() {
       const campgrounds = await getAllCampgrounds();
-
-      debug(campgrounds);
-      res.render("campgrounds/index", {
-        campgrounds: campgrounds,
-        user: req.user
-      });
+      // res.render("campgrounds/index", {
+      //   campgrounds: campgrounds,
+      //   user: req.user
+      // });
+      res.send(campgrounds);
     }
     renderCampgrounds();
   } catch (err) {
@@ -29,8 +28,9 @@ router.get("/campgrounds", (req, res) => {
   }
 });
 router.post("/campgrounds", (req, res) => {
+  console.log(req.body);
   async function createCampground() {
-    return await campground.create(req.body.obj);
+    return await campground.create(req.body);
   }
   createCampground()
     .then(newlyCreatedCampground => {
@@ -43,6 +43,7 @@ router.post("/campgrounds", (req, res) => {
     .catch(err => {
       req.flash("error", "There was some error in creating the campground");
     });
+
   // campground.create(req.body.obj, (err, result) => {
   //     if (!err) {
   //         // eslint-disable-next-line no-param-reassign
@@ -57,6 +58,7 @@ router.post("/campgrounds", (req, res) => {
   //     }
   // });
   // Redirect User to the campgrounds page
+  res.status(200).send("Saved the campground");
 });
 router.get("/campgrounds/new", middleWare.isLoggedIn, (req, res) => {
   res.render("new");

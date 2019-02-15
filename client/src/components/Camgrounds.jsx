@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
 import Campground from "./Campground";
+import axios from "axios";
 class Campgrounds extends Component {
   getModalData = () => {
     return `To us, camping is all about finding those extra-special places to
@@ -10,7 +11,18 @@ class Campgrounds extends Component {
           you're in the right place for discovering the very best campsites in
           the UK, France and a growing list of other European countries.`;
   };
+  state = {
+    campgrounds: []
+  };
+  async componentDidMount() {
+    // Get data from the server, using axios
+    const { data } = await axios.get("/campgrounds");
+    this.setState({ campgrounds: data });
+
+    // this.setState({campgrounds:})
+  }
   render() {
+    // eslint-disable-next-line no-unused-vars
     const camps = [
       {
         id: 1,
@@ -37,7 +49,7 @@ class Campgrounds extends Component {
           btnLabel="Add Campground"
           small="Nothing special it's just built with React"
         />
-        <Campground camps={camps} />
+        <Campground camps={this.state.campgrounds} />
       </div>
     );
   }

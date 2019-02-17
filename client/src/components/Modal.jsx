@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Modal = ({ label, desc, ...rest }) => {
+const Modal = ({ label, desc, children, ...rest }) => {
   return (
     <div className="container">
       <div className="jumbotron mt-3">
@@ -16,6 +16,7 @@ const Modal = ({ label, desc, ...rest }) => {
           </Link>
         </p>
         <hr className="my-4" />
+        {children}
       </div>
     </div>
   );

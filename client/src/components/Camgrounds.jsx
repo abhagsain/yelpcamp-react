@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import Modal from "./Modal";
-import Campground from "./Campground";
 import axios from "axios";
+import React, { Component } from "react";
+import Campground from "./Campground";
+import Modal from "./Modal";
+import Search from "./Search";
 class Campgrounds extends Component {
   getModalData = () => {
     return `To us, camping is all about finding those extra-special places to
@@ -12,18 +13,22 @@ class Campgrounds extends Component {
           the UK, France and a growing list of other European countries.`;
   };
   state = {
-    campgrounds: []
+    campgrounds: [],
+    search: ""
   };
   async componentDidMount() {
     // Get data from the server, using axios
     const { data } = await axios.get("/campgrounds");
     this.setState({ campgrounds: data });
-
     // this.setState({campgrounds:})
   }
+  handleChange = ({ currentTarget: input }) => {
+    const { value } = input;
+    this.setState({ search: value });
+  };
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const camps = [
+    /* 
+   const camps = [
       {
         id: 1,
         name: "Venezuala",
@@ -39,7 +44,20 @@ class Campgrounds extends Component {
         url: "https://images.unsplash.com/photo-1549915009-4ad67f8ccf6a"
       }
     ];
+    */
+
     const label = `Welcome to Yelpcamp 2.0`;
+    let campgrounds = [...this.state.campgrounds];
+    let search = this.state.search;
+    search = search ? search.trim() : search;
+    if (search) {
+      campgrounds = campgrounds.filter(el =>
+        el.name.toLowerCase().startsWith(search.toLowerCase())
+      );
+    }
+    // if (search && search.trim()) {
+
+    // }
     return (
       <div className="container">
         <Modal
@@ -47,9 +65,14 @@ class Campgrounds extends Component {
           label={label}
           link="/campgrounds/new"
           btnLabel="Add Campground"
-          small="Nothing special it's just built with React"
-        />
-        <Campground camps={this.state.campgrounds} />
+          small="Nothing special it's just built with React">
+          <Search
+            onChange={this.handleChange}
+            value={this.state.search}
+            placeholder="Search Campgrounds"
+          />
+        </Modal>
+        <Campground camps={campgrounds} />
       </div>
     );
   }
